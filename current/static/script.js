@@ -6,7 +6,7 @@ var counter = 15
 
 function startUpdateCycle() {
     updatePrices();
-    var countdown = setInterval(function () {
+    setInterval(function () {
         counter--;
         $('#counter').text(counter);
         if (counter <= 0) {
@@ -65,7 +65,7 @@ function updatePrice() {
                 } else if (changePercent == 0) {
                     colorClass = 'gray'
                 } else if (changePercent <= 2) {
-                    colorClass='green'
+                    colorClass = 'green'
                 } else {
                     colorClass = 'dark-green'
                 }
@@ -74,7 +74,7 @@ function updatePrice() {
                 $(`#${ticker}-pct`).text(`${changePercent.toFixed(2)}`)
                 $(`#${ticker}--price`).removeClass('dark-red red gray green dark-green').addClass(colorClass);
                 $(`#${ticker}--pct`).removeClass('dark-red red gray green dark-green').addClass(colorClass);
-                
+
                 var flashClass
                 if (lastPrices[ticker] > data.currentPrice) {
                     flashClass = 'red-flash'
@@ -90,7 +90,7 @@ function updatePrice() {
                 setTimeout(function () {
                     $(`#${ticker}`).removeClass(flashClass)
 
-                },1000)
+                }, 1000)
 
             }
         })
