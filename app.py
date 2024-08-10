@@ -38,6 +38,10 @@ def get_all_time_data():
     })
 
 
+@app.route('/stock.html')
+def stock():
+    return render_template('stock.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
 
