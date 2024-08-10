@@ -72,7 +72,7 @@ function updatePrices() {
                 }
 
                 $(`#${ticker}--price`).text(`$${data.currentPrice.toFixed(2)}`);
-                $(`#${ticker}-pct`).text(`${changePercent.toFixed(2)}`)
+                $(`#${ticker}--pct`).text(`${changepercent.toFixed(2)}`)
                 $(`#${ticker}--price`).removeClass('dark-red red gray green dark-green').addClass(colorClass);
                 $(`#${ticker}--pct`).removeClass('dark-red red gray green dark-green').addClass(colorClass);
 
