@@ -21,7 +21,12 @@ def get_stock_data():
 @app.route('/get_all_time_data', methods=['POST'])
 def get_all_time_data():
     ticker = request.get_json()['ticker']
+
+
     data = yf.Ticker(ticker).history(period='max') 
+
+    monthly_data = data.resample('M').ffill()
+
     all_time_data_per_day = []
     
     for date, row in data.iterrows():
