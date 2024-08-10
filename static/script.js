@@ -1,6 +1,6 @@
 var tickers = JSON.parse(localStorage.getItem('tickers')) || [];
 var lastPrices = {};
-var counter = 15
+var counter = 5
 
 function startUpdateCycle() {
     updatePrices();
@@ -9,7 +9,7 @@ function startUpdateCycle() {
         $('#counter').text(counter);
         if (counter <= 0) {
             updatePrices();
-            counter = 15;
+            counter = 5;
         }
     }, 1000)
 }
@@ -43,7 +43,14 @@ $(document).ready(function () {
 
 
 function addTickerToGrid(ticker) {
-    $('#tickers-grid').append(`<div id="${ticker}" class="stock-box"><h2>${ticker}</h2><p id="${ticker}--price"></p><p id="${ticker}--pct"></p><button class="remove-btn" data-ticker="${ticker}">Remove</button></div>`)
+    $('#tickers-grid').append(`<div id="${ticker}" class="stock-box"><h2>${ticker}</h2>
+        <p id="${ticker}--price"></p>
+        <p id="${ticker}--pct"></p>
+        <button class="remove-btn" data-ticker="${ticker}">Remove</button>
+        <canvas id="${ticker}--chart" width="400" height="300"></canvas>
+        </div>`)
+
+    fetchAndRenderChart(ticker)
 
 }
 
@@ -96,4 +103,68 @@ function updatePrices() {
             }
         })
     })
+}
+
+function fetchAndRenderChart(ticker) {
+    $.ajax({
+        url: '/get_all_time_data',
+        type: 'POST',
+        data: JSON.stringify({ 'ticker': ticker }),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        success: function (data) {
+            const labels = data.allTimePrice.map(item => item[0]); // Dates
+            const prices = data.allTimePrice.map(item => item[2]); // Closing Prices
+            const pctChanges = data.allTimePrice.map(item => item[1]); // Percent Changes
+
+            const ctx = document.getElementById(`${ticker}--chart`).getContext('2d');
+
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: `${ticker} Stock Price`,
+                        data: prices,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false,
+                        pointRadius: 0,  // Remove the points
+                        borderWidth: 2  // Increased border width for visibility
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            display: false  // Hide X axis
+                        },
+                        y: {
+                            display: false  // Hide Y axis
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function (context) {
+                                    const index = context.dataIndex;
+                                    const price = prices[index];
+                                    const pct = pctChanges[index];
+                                    return `Price: $${price.toFixed(2)}, Change: ${pct.toFixed(2)}%`;
+                                },
+                                title: function (context) {
+                                    return labels[context[0].dataIndex]; // Show the date
+                                }
+                            }
+                        }
+                    },
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    elements: {
+                        line: {
+                            tension: 0.2  // Smoother lines
+                        }
+                    }
+                }
+            });
+        }
+    });
 }
