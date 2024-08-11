@@ -2,12 +2,12 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyB4K0JbOhXUgOl9v4n6wKwQO3CDshtpROM",
-    authDomain: "sfinder-949a5.firebaseapp.com",
-    projectId: "sfinder-949a5",
-    storageBucket: "sfinder-949a5.appspot.com",
-    messagingSenderId: "967191432335",
-    appId: "1:967191432335:web:a6ef0208f54b9da8f7f4fa"
+    apiKey: "AIzaSyCYEesY_WZBAzZp5aLbc74da2OEvsnjnTI",
+    authDomain: "sfinder-a421a.firebaseapp.com",
+    projectId: "sfinder-a421a",
+    storageBucket: "sfinder-a421a.appspot.com",
+    messagingSenderId: "451019128764",
+    appId: "1:451019128764:web:5dfd921e6ecb3a125235b9"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
