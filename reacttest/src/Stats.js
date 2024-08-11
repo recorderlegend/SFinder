@@ -15,27 +15,27 @@ function Stats() {
 
     const getMyStocks = () => {
         const myStocksCollection = collection(db, 'myStocks');
-        
+
         onSnapshot(myStocksCollection, (snapshot) => {
-          let promises = [];
-          let tempData = [];
-          snapshot.docs.map((doc) => {
-            promises.push(
-              getStocksData(doc.data().ticker)
-              .then(res => {
-                tempData.push({
-                  id: doc.id,
-                  data: doc.data(),
-                  info: res.data
-                })
-              })
-            )
-          });
-          Promise.all(promises).then(() => {
-            setMyStocks(tempData);
-          });
+            let promises = [];
+            let tempData = [];
+            snapshot.docs.map((doc) => {
+                promises.push(
+                    getStocksData(doc.data().ticker)
+                        .then(res => {
+                            tempData.push({
+                                id: doc.id,
+                                data: doc.data(),
+                                info: res.data
+                            })
+                        })
+                )
+            });
+            Promise.all(promises).then(() => {
+                setMyStocks(tempData);
+            });
         });
-      }
+    }
 
     const getStocksData = (stock) => {
         return axios
@@ -47,25 +47,25 @@ function Stats() {
 
     useEffect((stock) => {
         let tempStocksData = []
-        const stocksList = ["AAPL", "MSFT", "TSLA", "META", "BABA", "UBER", "DIS", "SBUX"];
+        const stocksList = ["AAPL", "MSFT", "TSLA", "META", "BABA", "UBER", "DIS", "SBUX", "AMD"];
 
         let promises = [];
         getMyStocks();
         stocksList.map((stock) => {
-        promises.push(
-            getStocksData(stock)
-            .then((res) => {
-                tempStocksData.push({
-                name: stock,
-                ...res.data
-            });
-            })
-        )
+            promises.push(
+                getStocksData(stock)
+                    .then((res) => {
+                        tempStocksData.push({
+                            name: stock,
+                            ...res.data
+                        });
+                    })
+            )
         });
 
-        Promise.all(promises).then(()=>{
+        Promise.all(promises).then(() => {
             setStockData(tempStocksData);
-          });
+        });
     }, []);
 
 
@@ -80,15 +80,15 @@ function Stats() {
                 </div>
                 <div className='stats__content'>
                     <div className='stats__rows'>
-                    {myStocks.map((stock) => (
-                        <StatsRow
-                            key={stock.data.ticker}
-                            name={stock.data.ticker}
-                            openPrice={stock.info.o}
-                            volume={stock.data.shares}
-                            price={stock.info.c}
-                        />
-                    ))}
+                        {myStocks.map((stock) => (
+                            <StatsRow
+                                key={stock.data.ticker}
+                                name={stock.data.ticker}
+                                openPrice={stock.info.o}
+                                volume={stock.data.shares}
+                                price={stock.info.c}
+                            />
+                        ))}
                     </div>
                 </div>
 
