@@ -4,6 +4,7 @@ import axios from "axios";
 import StatsRow from './StatsRow';
 import { db } from './firebase';
 import { collection, onSnapshot } from 'firebase/firestore';
+import Add from "@material-ui/icons/Add";
 
 
 const BASE_URL = "https://finnhub.io/api/v1/quote?symbol=";
@@ -75,9 +76,10 @@ function Stats() {
         <div className='stats'>
             <div className='stats__container'>
                 <div className='stats__header'>
-                    <p>Stocks</p>
-
+                    <p>Lists</p>
+                    <Add />
                 </div>
+
                 <div className='stats__content'>
                     <div className='stats__rows'>
                         {myStocks.map((stock) => (
@@ -93,9 +95,9 @@ function Stats() {
                 </div>
 
 
-                <div className='stats__header stats__lists'>
+                {/* <div className='stats__header stats__lists'>
                     <p>Lists</p>
-                </div>
+                </div> */}
                 <div className='stats__content'>
                     {stockData.map((stock) => (
                         <StatsRow
