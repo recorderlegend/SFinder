@@ -8,6 +8,7 @@ import SearchOutlined from "@material-ui/icons/SearchOutlined";
 function Header() {
 
     const [logoSrc, setLogoSrc] = useState(Logo);
+    const [searchTerm, setSearchTerm] = useState('');
 
     const handleMouseEnter = () => {
         setLogoSrc(LogoHover);
@@ -17,6 +18,12 @@ function Header() {
         setLogoSrc(Logo);
     };
 
+    const handleSearch = (event) => {
+        if (event.key === 'Enter') {
+            // event.preventDefault();
+            console.log('Search term:', searchTerm);
+        }
+    };
 
     return (
         <div className="header__wrapper">
@@ -28,8 +35,9 @@ function Header() {
             {/* search */}
             <div className='header__search'>
                 <div className='header__searchContainer'>
-                    <SearchOutlined />
-                    <input placeholder="Search" type="text"></input>
+                    <div className='search__icon'><SearchOutlined /></div>
+                    <input placeholder="Search" type="text" value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+                        onKeyDown={handleSearch}></input>
                 </div>
 
             </div>
