@@ -1,11 +1,13 @@
 import logo from './logo.svg'
 import './App.css'
-
 import Header from './Header'
 import Newsfeed from './Newsfeed'
 import Stats from './Stats'
+import React, { useEffect } from 'react';
+
 
 function App() {
+
   return (
     <div className="App">
       {/* Header */}

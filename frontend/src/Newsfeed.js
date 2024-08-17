@@ -4,10 +4,26 @@ import Linegraph from './Linegraph'
 import TimeLine from './TimeLine'
 import Chip from '@material-ui/core/Chip'
 import { Avatar } from '@material-ui/core'
-
+import axios from "axios"
 
 
 function Newsfeed() {
+    const [portfolioValue, setPortfolioValue] = useState(function getPortfolioValue() {
+        axios({
+            method: "GET",
+            url: "/get_portfolio_value"
+        })
+            .then((response) => {
+                const res = response.data
+                setPortfolioValue({
+                    pvalue: res.value
+                })
+            })
+    })
+
+
+
+
     const [popularTopics, setTopics] = useState([
         "Technology",
         "Top Movies",
@@ -30,7 +46,8 @@ function Newsfeed() {
                 <div className="newsfeed__chart__section">
                     <div className="newsfeed_price_asset">
                         <h1>Investing</h1>
-                        <h1> $113,656</h1>
+                        {portfolioValue &&
+                            <h1> {portfolioValue.pvalue}</h1>}
                         <p> $142.90 (+0.12) Today </p>
                     </div>
                     <div className="newsfeed__chart">
